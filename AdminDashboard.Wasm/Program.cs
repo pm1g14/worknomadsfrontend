@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using AdminDashboard.Wasm.Helpers;
@@ -47,6 +48,19 @@ namespace AdminDashboard.Wasm
             var accountService = host.Services.GetRequiredService<IAccountService>();
             await accountService.Initialize();
 
+            var ls = host.Services.GetRequiredService<ILocalStorageService>();
+            var usersKey = "blazor-registration-login-example-users";
+            var users = await ls.GetItem<List<UserRecord>>(usersKey) ?? new List<UserRecord>();
+            users.Add(new UserRecord
+            {
+                Id = 1,
+                FirstName = "Admin",
+                LastName = "Admin",
+                Username = "admin",
+                Password = "123321",
+                Role = Role.SuperAdmin
+            });
+            ls.SetItem(usersKey, users);
             //var admin = accountService.GetById(1);
             //if (admin is null)
             //{
