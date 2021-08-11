@@ -1,4 +1,5 @@
-﻿@inject ISnackbar Snackbar
+﻿@using AdminDashboard.Wasm.Models.Contract
+@inject ISnackbar Snackbar
 
 <MudDialog>
     <TitleContent>
@@ -44,7 +45,13 @@
     {
     //In a real world scenario this bool would probably be a service to delete the item from api/database
         Snackbar.Add("Contract executed", Severity.Success);
-        MudDialog.Close(DialogResult.Ok(ContractAddress));
+        MudDialog.Close(DialogResult.Ok(new ExecuteContract
+        {
+            ContractAddress = ContractAddress,
+            RecipientWalletAddress = RecipientWalletAddress,
+            Amount = Amount,
+            PaymentUnit = PaymentUnit
+        }));
     }
 
 }

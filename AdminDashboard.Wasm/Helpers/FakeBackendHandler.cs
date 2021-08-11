@@ -251,12 +251,12 @@ namespace AdminDashboard.Wasm.Helpers
 
                 var user = new UserRecord
                 {
-                    Id = users.Count > 0 ? users.Max(x => x.Id) + 1 : 0,
+                    Id = users.Count > 0 ? users.Max(x => x.Id) + 1 : 1,
                     Username = body.Username,
                     Password = body.Password,
                     FirstName = body.FirstName,
                     LastName = body.LastName,
-                    Role = users.Count < 1 ? Role.SuperAdmin : Role.Employee
+                    Role = users.Count < 1 ? Role.SuperAdmin : Role.Company
                 };
 
                 users.Add(user);
@@ -341,7 +341,7 @@ namespace AdminDashboard.Wasm.Helpers
                 };
 
                 // delay to simulate real api call
-                await Task.Delay(500);
+                await Task.Delay(200);
 
                 return response;
             }

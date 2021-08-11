@@ -2,6 +2,7 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using AdminDashboard.Wasm.Helpers;
+using AdminDashboard.Wasm.Models.User;
 using AdminDashboard.Wasm.Services;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -46,6 +47,20 @@ namespace AdminDashboard.Wasm
             var accountService = host.Services.GetRequiredService<IAccountService>();
             await accountService.Initialize();
 
+            var admin = accountService.GetById(1);
+            if (admin is null)
+            {
+                await accountService.Register(
+                    new AddUser
+                    {
+                        FirstName = "Admin",
+                        LastName = "Admin",
+                        EmailAddress = "admin@nomads.com",
+                        Username = "admin",
+                        Password = "123321"
+                    });
+            }
+            
 
             await host.RunAsync();
         }

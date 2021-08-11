@@ -74,9 +74,11 @@ else
         var dialog = DialogService.Show<Dialog>("Execute Contract", parameters, maxWidth);
         var result = await dialog.Result;
 
+        var executeContract = result.Data as ExecuteContract;
+
         if (!result.Cancelled)
         {
-    // make http request?
+            // make http request?
         }
     }
 

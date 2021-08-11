@@ -81,34 +81,6 @@
             </MudCardHeader>
             <MudCardContent>
                 <MudGrid>
-                    <MudItem xs="12" sm="4">
-                        <MudText>
-                            <b>Email</b>
-                        </MudText>
-                        <MudText Typo="Typo.body2">
-                            What type of system notifications you want to recieve to your email.
-                        </MudText>
-                        <div class="d-flex flex-column mt-6">
-                            <MudCheckBox @bind-Checked="@NotificationEmail_1" Label="Threat Detection" Color="Color.Primary"></MudCheckBox>
-                            <MudCheckBox @bind-Checked="@NotificationEmail_2" Label="Server Errors" Color="Color.Error"></MudCheckBox>
-                            <MudCheckBox @bind-Checked="@NotificationEmail_3" Label="Server Warnings" Color="Color.Warning"></MudCheckBox>
-                            <MudCheckBox @bind-Checked="@NotificationEmail_4" Label="Spam" Color="Color.Success"></MudCheckBox>
-                        </div>
-                    </MudItem>
-                    <MudItem xs="12" sm="8">
-                        <MudText>
-                            <b>Chat</b>
-                        </MudText>
-                        <MudText Typo="Typo.body2">
-                            What type of system notifications you want to recieve in the phone application.
-                        </MudText>
-                        <div class="d-flex flex-column mt-6">
-                            <MudCheckBox @bind-Checked="@NotificationChat_1" Label="Threat Detection" Color="Color.Primary"></MudCheckBox>
-                            <MudCheckBox @bind-Checked="@NotificationChat_2" Label="Server Errors" Color="Color.Error"></MudCheckBox>
-                            <MudCheckBox @bind-Checked="@NotificationChat_3" Label="Server Warnings" Color="Color.Warning"></MudCheckBox>
-                            <MudCheckBox @bind-Checked="@NotificationChat_4" Label="Spam" Color="Color.Success"></MudCheckBox>
-                        </div>
-                    </MudItem>
                 </MudGrid>
             </MudCardContent>
             <MudCardActions Class="pb-4 pl-4">
