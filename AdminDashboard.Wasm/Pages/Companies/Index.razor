@@ -1,0 +1,58 @@
+﻿@page "/companies/index"
+@using AdminDashboard.Wasm.Models.Company
+@using Microsoft.AspNetCore.Authorization
+@inject NavigationManager NavigationManager
+@inject HttpClient Http
+@attribute [Authorize]
+<h1>Companies</h1>
+
+<div style="margin-bottom: 15px">
+    <button class="btn btn-primary" @onclick="@(AddNewCompany)">Register new company</button>
+</div>
+
+@if (companies == null)
+{
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+else
+{
+    <MudTable RowStyle="cursor: pointer;" Items="@companies" Hover="true" Breakpoint="Breakpoint.Sm" Loading="@_loading" LoadingProgressColor="Color.Info" T="CompanyDetails" OnRowClick="@(contract => CompanyDetails(contract))">
+        <HeaderContent>
+            <MudTh>Id</MudTh>
+            <MudTh>Name</MudTh>
+            <MudTh>EmailAddress</MudTh>
+            <MudTh>WalletAddress</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Nr">@context.Id</MudTd>
+            <MudTd DataLabel="Sign">@context.Name</MudTd>
+            <MudTd DataLabel="Name">@context.EmailAddress</MudTd>
+            <MudTd DataLabel="Name">@context.WalletAddress</MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager PageSizeOptions="new int[] { 1, 5, 10 }"/>
+        </PagerContent>
+    </MudTable>
+@code {
+    private bool _hidePosition;
+    private bool _loading;
+    private List<CompanyDetails> companies = new List<CompanyDetails>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        companies = await Http.GetFromJsonAsync<List<CompanyDetails>>("/companies/index");
+    }
+
+    protected void CompanyDetails(TableRowClickEventArgs<CompanyDetails> c)
+    {
+        NavigationManager.NavigateTo($"/companies/{c.Item.Id}/details");
+    }
+
+    protected void AddNewCompany()
+    {
+        NavigationManager.NavigateTo("/companies/add");
+    }
+
+}}

@@ -1,0 +1,67 @@
+﻿@page "/users/{Id:int}/details"
+@using AdminDashboard.Wasm.Services
+@using Microsoft.AspNetCore.Authorization
+@using AdminDashboard.Wasm.Models.User
+@attribute [Authorize]
+@inject IAlertService AlertService
+@inject IAccountService AccountService
+@inject NavigationManager NavigationManager
+@inject HttpClient Http
+
+<h3>User profile</h3>
+
+<form>
+    <div class="form-group">
+        <label for="dateOfBirth">Username</label>
+        <input type="text" @bind="user.Username" class="form-control" id="dateOfBirth">
+    </div>
+
+    <div class="form-group">
+        <label for="employeeName">First Name</label>
+        <input type="text" @bind="user.FirstName" class="form-control" id="employeeName">
+    </div>
+
+    <div class="form-group">
+        <label for="employeeSurname">Last Name</label>
+        <input type="text" @bind="user.LastName" class="form-control" id="employeeSurname">
+    </div>
+
+    <div class="form-group">
+        <label for="emailAddress">Email Address</label>
+        <input type="text" class="form-control" id="emailAddress">
+    </div>
+
+    <div class="form-group">
+        <label for="nationality">Nationality</label>
+        <input type="text" class="form-control" id="nationality">
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="placeOfWork">Place of Work</label>
+            <input type="email" class="form-control" id="placeOfWork">
+        </div>
+
+        <div class="form-group col-md-6">
+            <label for="walletAddress">Wallet Address</label>
+            <input type="email" class="form-control" id="walletAddress">
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save contract</button>
+</form>
+
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    private User user = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        user = await AccountService.GetById(Id);
+    }
+
+}

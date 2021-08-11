@@ -1,0 +1,50 @@
+﻿@inject ISnackbar Snackbar
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            Execute contract?
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudTextField @bind-Value="ContractAddress" Label="ContractAddress" ReadOnly="true"/>
+        <MudTextField @bind-Value="Amount" Label="Amount"/>
+        <MudTextField @bind-Value="PaymentUnit" Label="PaymentUnit" ReadOnly="true"/>
+        <MudTextField @bind-Value="RecipientWalletAddress" Label="RecipientWalletAddress" ReadOnly="true"/>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Error" OnClick="ExecuteContract">Execute contract</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public string ContractAddress { get; set; }
+
+    [Parameter]
+    public decimal Amount { get; set; }
+
+    [Parameter]
+    public string PaymentUnit { get; set; }
+
+    [Parameter]
+    public string RecipientWalletAddress { get; set; }
+
+    private void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+
+    private void ExecuteContract()
+    {
+    //In a real world scenario this bool would probably be a service to delete the item from api/database
+        Snackbar.Add("Contract executed", Severity.Success);
+        MudDialog.Close(DialogResult.Ok(ContractAddress));
+    }
+
+}

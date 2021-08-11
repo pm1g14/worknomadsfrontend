@@ -1,0 +1,35 @@
+﻿@using AdminDashboard.Wasm.Services
+@using Microsoft.AspNetCore.Authorization
+@inject IAccountService AccountService
+@attribute [Authorize]
+
+<MudCard Elevation="0" Square="true" Class="@Class" Style="@Style">
+    <MudCardHeader>
+        <CardHeaderAvatar>
+            <MudAvatar Image="images/avatar_jonny.jpg"/>
+        </CardHeaderAvatar>
+        <CardHeaderContent>
+            <MudText Typo="Typo.body2">@person</MudText>
+            <MudText Typo="Typo.caption">@role</MudText>
+        </CardHeaderContent>
+    </MudCardHeader>
+</MudCard>
+
+@code {
+
+    [Parameter]
+    public string Class { get; set; }
+
+    [Parameter]
+    public string Style { get; set; }
+
+    string person;
+    string role;
+
+    protected override async Task OnInitializedAsync()
+    {
+        person = $"{AccountService?.User?.FirstName} {AccountService?.User?.LastName}";
+        role = $"{AccountService?.User?.Role}";
+    }
+
+}

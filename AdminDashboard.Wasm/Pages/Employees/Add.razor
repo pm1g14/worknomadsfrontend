@@ -1,0 +1,52 @@
+﻿@page "/employees/add"
+@using AdminDashboard.Wasm.Services
+@using Microsoft.AspNetCore.Authorization
+@using AdminDashboard.Wasm.Models.Employee
+@attribute [Authorize]
+@inject IAlertService AlertService
+@inject IAccountService AccountService
+@inject NavigationManager NavigationManager
+
+<MudCard Elevation="25">
+    <MudCardHeader>
+        <CardHeaderContent>
+            <MudText Typo="Typo.h6">Add new Employee</MudText>
+        </CardHeaderContent>
+    </MudCardHeader>
+    <MudCardContent>
+        <MudTextField @bind-Value="employee.Name" Label="Name" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <MudTextField @bind-Value="employee.Surname" Label="Surname" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <MudTextField @bind-Value="employee.EmailAddress" Label="EmailAddress" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <MudTextField @bind-Value="employee.DateOfBirth" Label="DateOfBirth" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <MudTextField @bind-Value="employee.Nationality" Label="Nationality" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <MudTextField @bind-Value="employee.PlaceOfWork" Label="PlaceOfWork" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <MudTextField @bind-Value="employee.WalletAddress" Label="WalletAddress" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+
+        <br/>
+        <MudButton Variant="Variant.Filled" Color="Color.Success">Save Employee</MudButton>
+    </MudCardContent>
+</MudCard>
+
+@code {
+    private readonly AddEmployee employee = new();
+
+    private bool loading;
+
+    private async void OnValidSubmit()
+    {
+        loading = true;
+        try
+        {
+    //await AccountService.Register(employee);
+            AlertService.Success("User added successfully", keepAfterRouteChange: true);
+            NavigationManager.NavigateTo("users");
+        }
+        catch (Exception ex)
+        {
+            AlertService.Error(ex.Message);
+            loading = false;
+            StateHasChanged();
+        }
+    }
+
+}

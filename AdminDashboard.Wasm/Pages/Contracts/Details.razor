@@ -1,0 +1,83 @@
+﻿@page "/details/{contractAddress}"
+@using AdminDashboard.Wasm.Models.Contract
+@using Microsoft.AspNetCore.Authorization
+@inject HttpClient Http
+@inject IDialogService DialogService
+@attribute [Authorize]
+
+<MudButton Variant="Variant.Filled" Style="margin-bottom: 15px" Color="Color.Primary" OnClick="@ExecuteContract">Execute contract</MudButton>
+
+@if (contract == null)
+{
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+else
+{
+    <MudCard Elevation="25">
+        <MudCardHeader>
+            <CardHeaderContent>
+                <MudText Typo="Typo.h6">Company details</MudText>
+            </CardHeaderContent>
+        </MudCardHeader>
+        <MudCardContent>
+            <MudTextField @bind-Value="contract.EmployeeId" Label="EmployeeId" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+            <MudTextField @bind-Value="contract.EmployeeName" Label="EmployeeName" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+            <MudTextField @bind-Value="contract.EmployeeSurname" Label="EmployeeSurname" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+            <MudTextField @bind-Value="contract.Address" Label="Contract Address" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+            <MudTextField @bind-Value="contract.CountryOfResidence" Label="CountryOfResidence" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+            <MudTextField @bind-Value="contract.PhoneNumber" Label="PhoneNumber" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+            <MudTextField @bind-Value="contract.Email" Label="Contact Email" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+            <MudTextField @bind-Value="contract.EmployeeWalletAddress" Label="EmployeeWalletAddress" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+            <MudTextField @bind-Value="contract.CompanyWalletAddress" Label="EmployerWalletAddress" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+            <MudTextField @bind-Value="contract.CountryOfResidence" Label="CountryOfResidence" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+
+            <MudTextField @bind-Value="contract.ContractDetails.ContractExpiry" Label="ContractExpiry" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+            <MudTextField @bind-Value="contract.ContractDetails.GrossSalary" Label="GrossSalary" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+            <MudTextField @bind-Value="contract.ContractDetails.PaymentTerm" Label="PaymentTerm" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+
+            <br/>
+            <MudButton Variant="Variant.Filled" Color="Color.Success">Save Company</MudButton>
+        </MudCardContent>
+    </MudCard>
+}
+
+@code {
+    private Contract contract = new();
+
+    [Parameter]
+    public string ContractAddress { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var contracts = await Http.GetFromJsonAsync<Contract[]>("sample-data/contracts.json");
+
+            contract = contracts.FirstOrDefault(x => x.Address == ContractAddress);
+        }
+        catch (Exception e)
+        {
+        }
+    }
+
+    async Task ExecuteContract()
+    {
+        DialogOptions maxWidth = new DialogOptions() { MaxWidth = MaxWidth.Medium, FullWidth = true };
+
+        var parameters = new DialogParameters();
+        parameters.Add("ContractAddress", contract.Address);
+        parameters.Add("RecipientWalletAddress", contract.EmployeeWalletAddress);
+
+
+        var dialog = DialogService.Show<Dialog>("Execute Contract", parameters, maxWidth);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+    // make http request?
+        }
+    }
+
+}

@@ -1,0 +1,68 @@
+﻿@page "/contracts/index"
+@using AdminDashboard.Wasm.Services
+@using Microsoft.AspNetCore.Authorization
+@using AdminDashboard.Wasm.Models.Contract
+@inject NavigationManager NavigationManager
+@inject HttpClient Http
+@inject IAccountService AccountService
+@attribute [Authorize]
+
+<h1>Contracts</h1>
+
+<MudButton Variant="Variant.Filled" Style="margin-bottom: 15px" Color="Color.Primary" OnClick="@CreateNewContract">Request new contract</MudButton>
+
+@if (contracts == null)
+{
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+else
+{
+    <MudTable RowStyle="cursor: pointer;" Items="@contracts" Hover="true" Breakpoint="Breakpoint.Sm" LoadingProgressColor="Color.Info" T="Contract" OnRowClick="@(contract => ContractDetails(contract))">
+        <HeaderContent>
+            <MudTh>Name</MudTh>
+            <MudTh>Surname</MudTh>
+            <MudTh>CountryOfResidence</MudTh>
+            <MudTh>Email</MudTh>
+            <MudTh>RemainingBalance</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Name">@context.EmployeeName</MudTd>
+            <MudTd DataLabel="Surname">@context.EmployeeSurname</MudTd>
+            <MudTd DataLabel="CountryOfResidence">@context.CountryOfResidence</MudTd>
+            <MudTd DataLabel="Email">@context.Email</MudTd>
+            <MudTd DataLabel="RemainingBalance">@context.RemainingBalance</MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager PageSizeOptions="new int[] { 1, 5, 10 }"/>
+        </PagerContent>
+    </MudTable>
+}
+
+@code {
+    private bool _loading;
+
+    private List<Contract> contracts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        contracts = await Http.GetFromJsonAsync<List<Contract>>("sample-data/contractsListing.json");
+
+        if (AccountService?.User?.Role != Role.SuperAdmin)
+        {
+            contracts = contracts.Where(x => x.EmployeeId.ToString() == AccountService.User.Id).ToList();
+        }
+    }
+
+    protected void ContractDetails(TableRowClickEventArgs<Contract> c)
+    {
+        NavigationManager.NavigateTo($"/details/{c.Item.Address}");
+    }
+
+    protected void CreateNewContract()
+    {
+        NavigationManager.NavigateTo("/contracts/add");
+    }
+
+}

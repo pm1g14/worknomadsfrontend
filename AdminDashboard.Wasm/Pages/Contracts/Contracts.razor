@@ -1,0 +1,59 @@
+﻿@page "/contracts"
+@using AdminDashboard.Wasm.Models.Contract
+@using Microsoft.AspNetCore.Authorization
+@inject NavigationManager NavigationManager
+@inject HttpClient Http
+@attribute [Authorize]
+
+<h1>Contracts</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+@if (contracts == null)
+{
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Employee name</th>
+            <th>Employee surname</th>
+            <th>Country of residence</th>
+            <th>Email address</th>
+            <th>Remaining Balance</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var contract in contracts)
+        {
+            <tr @onclick="@(() => ContractDetails(contract.Address))">
+                <td>@contract.EmployeeName</td>
+                <td>@contract.EmployeeSurname</td>
+                <td>@contract.CountryOfResidence</td>
+                <td>@contract.Email</td>
+                <td>@contract.RemainingBalance</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code {
+    private Contract[] contracts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        contracts = await Http.GetFromJsonAsync<Contract[]>("sample-data/contractsListing.json");
+    }
+
+    protected void ContractDetails(string address)
+    {
+        NavigationManager.NavigateTo($"/contractsDetails/{address}");
+    }
+
+    void Details(Contract Contract) => Console.WriteLine($"Details item: {Contract.Address}");
+}

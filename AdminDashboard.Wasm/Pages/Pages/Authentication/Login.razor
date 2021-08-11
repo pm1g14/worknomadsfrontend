@@ -1,0 +1,75 @@
+﻿@page "/"
+@page "/pages/authentication/login"
+@using AdminDashboard.Wasm.Services
+@layout LoginLayout
+@inject IAccountService AccountService
+@inject NavigationManager NavigationManager
+@inject ISnackbar Snackbar
+
+<MudText Typo="Typo.h4" GutterBottom="true">Sign In</MudText>
+
+<MudText>Don't have an account? <MudLink Href="/pages/authentication/register">Sign Up</MudLink></MudText>
+
+<MudTextField T="string" @bind-Value="login.Username" Label="E-mail" Variant="Variant.Outlined" Class="my-6"></MudTextField>
+
+<MudTextField @bind-Value="login.Password" Label="Password" Variant="Variant.Outlined" InputType="@PasswordInput" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="TogglePasswordVisibility"/>
+
+<div Class="d-flex justify-space-between align-center">
+    <MudCheckBox T="bool" Label="Remember me?" Color="Color.Primary" Class="ml-n1 my-3"></MudCheckBox>
+    <MudLink Href="/pages/authentication/forgot-password">Forgot pwd?</MudLink>
+</div>
+<MudCardActions Class="pb-4 pl-4">
+    <MudButton OnClick="OnValidSubmit" Variant="Variant.Filled" Color="Color.Primary" Size="Size.Large" FullWidth="true">Sign In</MudButton>
+
+</MudCardActions>
+
+
+@code {
+    string Password { get; set; } = "BMWvBPJXZu";
+
+    bool PasswordVisibility;
+    InputType PasswordInput = InputType.Password;
+    string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+
+    void TogglePasswordVisibility()
+    {
+    @if (PasswordVisibility)
+    {
+        PasswordVisibility = false;
+        PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+        PasswordInput = InputType.Password;
+    }
+    else
+    {
+        PasswordVisibility = true;
+        PasswordInputIcon = Icons.Material.Filled.Visibility;
+        PasswordInput = InputType.Text;
+    }
+    }
+
+    private readonly Models.Login login = new();
+    private bool loading;
+
+    private async void OnValidSubmit()
+    {
+    // reset alerts on submit
+    //AlertService.Clear();
+
+        loading = true;
+        try
+        {
+            await AccountService.Login(login);
+    //var returnUrl = NavigationManager.QueryString("returnUrl") ?? "";
+            NavigationManager.NavigateTo("/dashboard");
+        }
+        catch (Exception ex)
+        {
+    //AlertService.Error(ex.Message);
+            loading = false;
+            StateHasChanged();
+
+            Snackbar.Add("Username or password is incorrect.", Severity.Error, config => { config.ShowCloseIcon = false; });
+        }
+    }
+
+}
