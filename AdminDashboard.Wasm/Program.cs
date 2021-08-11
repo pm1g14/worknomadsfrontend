@@ -47,19 +47,19 @@ namespace AdminDashboard.Wasm
             var accountService = host.Services.GetRequiredService<IAccountService>();
             await accountService.Initialize();
 
-            var admin = accountService.GetById(1);
-            if (admin is null)
-            {
-                await accountService.Register(
-                    new AddUser
-                    {
-                        FirstName = "Admin",
-                        LastName = "Admin",
-                        EmailAddress = "admin@nomads.com",
-                        Username = "admin",
-                        Password = "123321"
-                    });
-            }
+            //var admin = accountService.GetById(1);
+            //if (admin is null)
+            //{
+            //    await accountService.Register(
+            //        new AddUser
+            //        {
+            //            FirstName = "Admin",
+            //            LastName = "Admin",
+            //            EmailAddress = "admin@nomads.com",
+            //            Username = "admin",
+            //            Password = "123321"
+            //        });
+            //}
             
 
             await host.RunAsync();
