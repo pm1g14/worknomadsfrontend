@@ -78,7 +78,8 @@ else
 
         if (!result.Cancelled)
         {
-            // make http request?
+            //http://localhost:80/app/v1/contract/pay/
+            await Http.PostAsJsonAsync("http://localhost:80/app/v1/contract/pay", executeContract);
         }
     }
 
