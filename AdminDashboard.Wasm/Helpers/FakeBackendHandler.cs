@@ -139,7 +139,7 @@ namespace AdminDashboard.Wasm.Helpers
                         EmployeeId = 1,
                         EmployeeName = "Aris",
                         EmployeeSurname = "Fanaras",
-                        Address = "0x45316062B2347889F19A01765f0e7af05ED34e8f",
+                        Address = "0x9646fc6ee1b3bf193ca2bcd0d167e0aa2c6244b0",
                         Email = "arisfan87@gmail.com",
                         CountryOfResidence = "Greece",
                         PhoneNumber = "313213123",
