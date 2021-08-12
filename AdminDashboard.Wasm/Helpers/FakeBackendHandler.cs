@@ -143,7 +143,7 @@ namespace AdminDashboard.Wasm.Helpers
                         Email = "arisfan87@gmail.com",
                         CountryOfResidence = "Greece",
                         PhoneNumber = "313213123",
-                        EmployeeWalletAddress = "0x45316062B2347779F19A01765f0e7af05ED34a3b",
+                        EmployeeWalletAddress = "0xCF6999A79411D4Ed73aA0cCa43fE2982cFA68e65",
                         CompanyWalletAddress = "0x45316062B2347659F19A01765f0e7af05ED34a3d",
                         ContractDetails = new ContractDetails
                         {
