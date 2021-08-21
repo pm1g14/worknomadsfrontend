@@ -7,9 +7,9 @@
 @inject IAccountService AccountService
 @attribute [Authorize]
 
-<h1>Contracts</h1>
+<MudText Typo="Typo.h5" Color="Color.Primary" Class="mb-4">Contracts</MudText>
 
-<MudButton Variant="Variant.Filled" Style="margin-bottom: 15px" Color="Color.Primary" OnClick="@CreateNewContract">Request new contract</MudButton>
+<MudButton Icon="@Icons.Material.Filled.Add" Style="margin-bottom: 15px" Color="Color.Primary" OnClick="CreateNewContract">Request new contract</MudButton>
 
 @if (contracts == null)
 {
@@ -35,7 +35,7 @@ else
             <MudTd DataLabel="RemainingBalance">@context.RemainingBalance</MudTd>
         </RowTemplate>
         <PagerContent>
-            <MudTablePager PageSizeOptions="new int[] { 1, 5, 10 }"/>
+            <MudTablePager PageSizeOptions="new int[] { 1, 5, 10 }" />
         </PagerContent>
     </MudTable>
 }
@@ -57,7 +57,7 @@ else
 
     protected void ContractDetails(TableRowClickEventArgs<Contract> c)
     {
-        NavigationManager.NavigateTo($"/details/{c.Item.Address}");
+        NavigationManager.NavigateTo($"/edit/{c.Item.Address}");
     }
 
     protected void CreateNewContract()
