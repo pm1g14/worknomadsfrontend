@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using AdminDashboard.Wasm.Models;
-using AdminDashboard.Wasm.Models.Company;
+using AdminDashboard.Wasm.Models.BusinessPartner;
 using AdminDashboard.Wasm.Models.Contract;
 using AdminDashboard.Wasm.Models.Employee;
 using AdminDashboard.Wasm.Models.User;
@@ -105,25 +105,25 @@ namespace AdminDashboard.Wasm.Helpers
 
             async Task<HttpResponseMessage> getCompanies()
             {
-                var companies = new List<CompanyDetails>
+                var companies = new List<BusinessPartnerDetails>
                 {
-                    new CompanyDetails
+                    new BusinessPartnerDetails
                     {
                         Id = 1,
                         Name = "Sonovate",
                         Address = "Cardiff",
-                        EmailAddress = "sono@sono.co.uk",
+                        Email = "sono@sono.co.uk",
                         WalletAddress = "0x3hi12h3i1u3h1i2u3b313vg1v2",
-                        TelephoneNumber = "+4413231231"
+                        ContactNumber = "+4413231231"
                     },
-                    new CompanyDetails
+                    new BusinessPartnerDetails
                     {
                         Id = 2,
                         Name = "Just Eat",
                         Address = "Bristol",
-                        EmailAddress = "justeat@je.co.uk",
+                        Email = "justeat@je.co.uk",
                         WalletAddress = "0x3hi12h3i1u3h1i2u333f3fg3f3fg3",
-                        TelephoneNumber = "+4482872762"
+                        ContactNumber = "+4482872762"
                     }
                 };
 
@@ -256,7 +256,7 @@ namespace AdminDashboard.Wasm.Helpers
                     Password = body.Password,
                     FirstName = body.FirstName,
                     LastName = body.LastName,
-                    Role = users.Count < 1 ? Role.SuperAdmin : Role.Company
+                    Role = users.Count < 1 ? Role.SuperAdmin : Role.Partner
                 };
 
                 users.Add(user);
@@ -385,7 +385,7 @@ namespace AdminDashboard.Wasm.Helpers
     public enum Role
     {
         SuperAdmin,
-        Company,
+        Partner,
         User
     }
 }

@@ -1,5 +1,5 @@
 ﻿@page "/companies/{Id}/delete"
-@using AdminDashboard.Wasm.Models.Company
+@using AdminDashboard.Wasm.Models.BusinessPartner
 
 <h3>Delete company</h3>
 
@@ -16,12 +16,12 @@
 
     <div class="form-group">
         <label for="inputAddress2">Address 2</label>
-        <input type="text" @bind="company.EmailAddress" class="form-control" id="inputAddress2">
+        <input type="text" @bind="company.Email" class="form-control" id="inputAddress2">
     </div>
 
     <div class="form-group">
         <label for="employerWalletAddress">Employer wallet address</label>
-        <input type="text" @bind="company.TelephoneNumber" class="form-control" id="employerWalletAddress">
+        <input type="text" @bind="company.ContactNumber" class="form-control" id="employerWalletAddress">
     </div>
 
     <div class="form-group">
@@ -37,5 +37,5 @@
     [Parameter]
     public string Id { get; set; }
 
-    private readonly CompanyDetails company = new();
+    private readonly BusinessPartnerDetails company = new();
 }

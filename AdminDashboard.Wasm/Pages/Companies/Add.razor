@@ -1,5 +1,5 @@
 ﻿@page "/companies/add"
-@using AdminDashboard.Wasm.Models.Company
+@using AdminDashboard.Wasm.Models.BusinessPartner
 
 <MudCard Elevation="25">
     <MudCardHeader>
@@ -10,8 +10,8 @@
     <MudCardContent>
         <MudTextField @bind-Value="company.Name" Label="Name" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
         <MudTextField @bind-Value="company.Address" Label="Address" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
-        <MudTextField @bind-Value="company.EmailAddress" Label="EmailAddress" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
-        <MudTextField @bind-Value="company.TelephoneNumber" Label="Contact Number" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <MudTextField @bind-Value="company.Email" Label="EmailAddress" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <MudTextField @bind-Value="company.ContactNumber" Label="Contact Number" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
         <MudTextField @bind-Value="company.WalletAddress" Label="WalletAddress" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
 
         <br/>
@@ -20,5 +20,5 @@
 </MudCard>
 
 @code {
-    private readonly AddCompany company = new();
+    private readonly AddBusinessPartner company = new();
 }

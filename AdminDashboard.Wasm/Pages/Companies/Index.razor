@@ -1,6 +1,6 @@
 ﻿@page "/companies/index"
-@using AdminDashboard.Wasm.Models.Company
 @using Microsoft.AspNetCore.Authorization
+@using AdminDashboard.Wasm.Models.BusinessPartner
 @inject NavigationManager NavigationManager
 @inject HttpClient Http
 @attribute [Authorize]
@@ -17,7 +17,7 @@
 }
 else
 {
-    <MudTable RowStyle="cursor: pointer;" Items="@companies" Hover="true" Breakpoint="Breakpoint.Sm" Loading="@_loading" LoadingProgressColor="Color.Info" T="CompanyDetails" OnRowClick="@(contract => CompanyDetails(contract))">
+    <MudTable RowStyle="cursor: pointer;" Items="@companies" Hover="true" Breakpoint="Breakpoint.Sm" Loading="@_loading" LoadingProgressColor="Color.Info" T="BusinessPartnerDetails" OnRowClick="@(contract => CompanyDetails(contract))">
         <HeaderContent>
             <MudTh>Id</MudTh>
             <MudTh>Name</MudTh>
@@ -25,10 +25,10 @@ else
             <MudTh>WalletAddress</MudTh>
         </HeaderContent>
         <RowTemplate>
-            <MudTd DataLabel="Nr">@context.Id</MudTd>
-            <MudTd DataLabel="Sign">@context.Name</MudTd>
-            <MudTd DataLabel="Name">@context.EmailAddress</MudTd>
-            <MudTd DataLabel="Name">@context.WalletAddress</MudTd>
+            <MudTd DataLabel="Id">@context.Id</MudTd>
+            <MudTd DataLabel="Name">@context.Name</MudTd>
+            <MudTd DataLabel="EmailAddress">@context.Email</MudTd>
+            <MudTd DataLabel="WalletAddress">@context.WalletAddress</MudTd>
         </RowTemplate>
         <PagerContent>
             <MudTablePager PageSizeOptions="new int[] { 1, 5, 10 }" />
@@ -37,14 +37,14 @@ else
     @code {
         private bool _hidePosition;
         private bool _loading;
-        private List<CompanyDetails> companies = new List<CompanyDetails>();
+        private List<BusinessPartnerDetails> companies = new List<BusinessPartnerDetails>();
 
         protected override async Task OnInitializedAsync()
         {
-            companies = await Http.GetFromJsonAsync<List<CompanyDetails>>("/companies/index");
+            companies = await Http.GetFromJsonAsync<List<BusinessPartnerDetails>>("/companies/index");
         }
 
-        protected void CompanyDetails(TableRowClickEventArgs<CompanyDetails> c)
+        protected void CompanyDetails(TableRowClickEventArgs<BusinessPartnerDetails> c)
         {
             NavigationManager.NavigateTo($"/companies/{c.Item.Id}/details");
         }
