@@ -1,52 +1,57 @@
-﻿@page "/employees/{id}/delete"
+﻿@page "/employees/{walletAddress}/delete"
 @using AdminDashboard.Wasm.Models.Employee
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
 
-<h3>Delete employee</h3>
+<MudCard Elevation="25">
+    <MudCardHeader>
+        <CardHeaderContent>
+            <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="DeleteEmployee">Delete Employee</MudButton>
+        </CardHeaderContent>
+    </MudCardHeader>
+    <MudCardContent>
+        <MudTextField @bind-Value="employee.Id" ReadOnly Label="Id" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <MudTextField @bind-Value="employee.Name" ReadOnly Label="Name" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <MudTextField @bind-Value="employee.Surname" ReadOnly Label="Surname" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <MudTextField @bind-Value="employee.Email" ReadOnly Label="Email Address" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <MudTextField @bind-Value="employee.CountryOfResidence" ReadOnly Label="Place Of Work" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <MudTextField @bind-Value="employee.WalletAddress" ReadOnly Label="Wallet Address" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
 
-<form>
-    <div class="form-group">
-        <label for="employeeName">Employee Name</label>
-        <input type="text" @bind="employee.Name" class="form-control" id="employeeName">
-    </div>
-    <div class="form-group">
-        <label for="employeeSurname">Employee Surname</label>
-        <input type="text" @bind="employee.Surname" class="form-control" id="employeeSurname">
-    </div>
-
-    <div class="form-group">
-        <label for="dateOfBirth">Date of birth</label>
-        <input type="text" @bind="employee.DateOfBirth" class="form-control" id="dateOfBirth">
-    </div>
-
-    <div class="form-group">
-        <label for="emailAddress">Email Address</label>
-        <input type="text" @bind="employee.EmailAddress" class="form-control" id="emailAddress">
-    </div>
-
-    <div class="form-group">
-        <label for="nationality">Nationality</label>
-        <input type="text" @bind="employee.Nationality" class="form-control" id="nationality">
-    </div>
-
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <label for="placeOfWork">Place of Work</label>
-            <input type="email" @bind="employee.PlaceOfWork" class="form-control" id="placeOfWork">
-        </div>
-
-        <div class="form-group col-md-6">
-            <label for="walletAddress">Wallet Address</label>
-            <input type="email" @bind="employee.WalletAddress" class="form-control" id="walletAddress">
-        </div>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Save contract</button>
-</form>
+        <br />
+    </MudCardContent>
+</MudCard>
 
 @code {
 
     [Parameter]
-    public string Id { get; set; }
+    public string WalletAddress { get; set; }
 
-    private readonly EmployeeDetails employee = new();
+    private EmployeeDetails employee = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var uri = Routes.Employee.Get.Replace("{walletAddress}", WalletAddress);
+        employee = await Http.GetFromJsonAsync<EmployeeDetails>(uri);
+    }
+
+    protected async Task DeleteEmployee()
+    {
+        try
+        {
+            var uri = Routes.Employee.Delete.Replace("{walletAddress}", WalletAddress);
+            var response = await Http.DeleteAsync(uri);
+
+            if (response.IsSuccessStatusCode)
+            {
+                NavigationManager.NavigateTo(Routes.Employee.Index);
+            }
+
+            // handle not 2.x.x response codes.
+        }
+        catch (Exception ex)
+        {
+            StateHasChanged();
+        }
+    }
+
 }

@@ -82,7 +82,7 @@ namespace AdminDashboard.Wasm.Helpers
                         Name = "Aris",
                         Surname = "Fanaras",
                         DateOfBirth = "27/07/1987",
-                        EmailAddress = "arisfan87@gmail.com",
+                        Email = "arisfan87@gmail.com",
                         Nationality = "Greek",
                         PlaceOfWork = "Greece",
                         WalletAddress = "0x45316062B2347889F19A01765f0e7af05ED34e8f"
@@ -93,7 +93,7 @@ namespace AdminDashboard.Wasm.Helpers
                         Name = "Panagiotis",
                         Surname = "Mavrothallasiti",
                         DateOfBirth = "01/01/1990",
-                        EmailAddress = "panamavro@gmail.com",
+                        Email = "panamavro@gmail.com",
                         Nationality = "Greek",
                         PlaceOfWork = "UK",
                         WalletAddress = "0x45316062B2347889F19A01765f0e7af05ED34a3c"
@@ -341,7 +341,7 @@ namespace AdminDashboard.Wasm.Helpers
                 };
 
                 // delay to simulate real api call
-                await Task.Delay(200);
+                //await Task.Delay(200);
 
                 return response;
             }
@@ -386,6 +386,6 @@ namespace AdminDashboard.Wasm.Helpers
     {
         SuperAdmin,
         Company,
-        Employee
+        User
     }
 }

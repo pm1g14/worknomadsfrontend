@@ -6,6 +6,7 @@
 @inject IAlertService AlertService
 @inject IAccountService AccountService
 @inject NavigationManager NavigationManager
+@inject HttpClient Http
 
 <MudCard Elevation="25">
     <MudCardHeader>
@@ -16,35 +17,36 @@
     <MudCardContent>
         <MudTextField @bind-Value="employee.Name" Label="Name" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
         <MudTextField @bind-Value="employee.Surname" Label="Surname" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
-        <MudTextField @bind-Value="employee.EmailAddress" Label="EmailAddress" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
-        <MudTextField @bind-Value="employee.DateOfBirth" Label="DateOfBirth" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
-        <MudTextField @bind-Value="employee.Nationality" Label="Nationality" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
-        <MudTextField @bind-Value="employee.PlaceOfWork" Label="PlaceOfWork" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
-        <MudTextField @bind-Value="employee.WalletAddress" Label="WalletAddress" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <MudTextField @bind-Value="employee.Address" Label="Address" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <MudTextField @bind-Value="employee.CountryOfResidence" Label="Country Of Residence" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <MudTextField @bind-Value="employee.Email" Label="Email" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <MudTextField @bind-Value="employee.PhoneNum" Label="Contact Number" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <MudTextField @bind-Value="employee.WalletAddress" Label="Wallet Address" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
 
-        <br/>
-        <MudButton Variant="Variant.Filled" Color="Color.Success">Save Employee</MudButton>
+        <br />
+        <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="OnValidSubmit">Save Employee</MudButton>
     </MudCardContent>
 </MudCard>
 
 @code {
     private readonly AddEmployee employee = new();
 
-    private bool loading;
 
     private async void OnValidSubmit()
     {
-        loading = true;
         try
         {
-    //await AccountService.Register(employee);
-            AlertService.Success("User added successfully", keepAfterRouteChange: true);
-            NavigationManager.NavigateTo("users");
+            var response = await Http.PostAsJsonAsync(Routes.Employee.Create, employee);
+
+            if (response.IsSuccessStatusCode)
+            {
+                NavigationManager.NavigateTo(Routes.Employee.Index);
+            }
+
+            // handle not 2.x.x response codes.
         }
         catch (Exception ex)
         {
-            AlertService.Error(ex.Message);
-            loading = false;
             StateHasChanged();
         }
     }

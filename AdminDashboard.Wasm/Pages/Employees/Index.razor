@@ -3,11 +3,9 @@
 @inject NavigationManager NavigationManager
 @inject HttpClient Http
 
-<h1>Employees</h1>
+<MudText Typo="Typo.h5" Color="Color.Primary" Class="mb-4">Employees</MudText>
 
-<div style="margin-bottom: 15px">
-    <button class="btn btn-primary" @onclick="@(AddNewEmployee)">Add new employee</button>
-</div>
+<MudButton Icon="@Icons.Material.Filled.Add" Style="margin-bottom: 15px" Color="Color.Primary" OnClick="AddNewEmployee">Add new employee</MudButton>
 
 @if (employees == null)
 {
@@ -22,36 +20,57 @@ else
             <MudTh>Id</MudTh>
             <MudTh>Name</MudTh>
             <MudTh>Surname</MudTh>
-            <MudTh>EmailAddress</MudTh>
+            <MudTh>Email Address</MudTh>
+            <MudTh>Place Of Work</MudTh>
         </HeaderContent>
         <RowTemplate>
             <MudTd DataLabel="Id">@context.Id</MudTd>
             <MudTd DataLabel="Name">@context.Name</MudTd>
             <MudTd DataLabel="Surname">@context.Surname</MudTd>
-            <MudTd DataLabel="EmailAddress">@context.EmailAddress</MudTd>
+            <MudTd DataLabel="EmailAddress">@context.Email</MudTd>
+            <MudTd DataLabel="EmailAddress">@context.PlaceOfWork</MudTd>
+            <MudTd>
+                <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Size="Size.Small" Class="ma-2" OnClick="@(() => DeleteEmployee(context.WalletAddress))" />
+            </MudTd>
         </RowTemplate>
         <PagerContent>
-            <MudTablePager PageSizeOptions="new int[] { 1, 5, 10 }"/>
+            <MudTablePager PageSizeOptions="new int[] { 1, 5, 10 }" />
         </PagerContent>
     </MudTable>
 }
 
 @code {
+
     private List<EmployeeDetails> employees;
 
     protected override async Task OnInitializedAsync()
     {
-        employees = await Http.GetFromJsonAsync<List<EmployeeDetails>>("/employees/index");
+
+        try
+        {
+            employees = await Http.GetFromJsonAsync<List<EmployeeDetails>>(Routes.Employee.Index);
+
+            if (employees is null || employees.Count == 0) employees = new List<EmployeeDetails>();
+        }
+        catch (Exception e)
+        {
+            throw new Exception();
+        }
     }
 
     protected void EmployeeDetails(TableRowClickEventArgs<EmployeeDetails> e)
     {
-        NavigationManager.NavigateTo($"/employees/{e.Item.Id}/details");
+        NavigationManager.NavigateTo($"/employees/{e.Item.WalletAddress}/details");
     }
 
     protected void AddNewEmployee()
     {
         NavigationManager.NavigateTo("/employees/add");
+    }
+
+    protected void DeleteEmployee(string walletAddress)
+    {
+        NavigationManager.NavigateTo($"/employees/{walletAddress}/delete");
     }
 
 }
