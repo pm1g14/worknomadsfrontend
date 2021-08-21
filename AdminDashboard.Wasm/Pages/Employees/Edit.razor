@@ -1,48 +1,26 @@
 ﻿@page "/employees/{walletAddress}/edit"
 @using AdminDashboard.Wasm.Models.Employee
 @inject HttpClient Http
+@inject NavigationManager NavigationManager
 
-<h3>Edit employee</h3>
+<MudCard Elevation="25">
+    <MudCardHeader>
+        <CardHeaderContent>
+            <MudText Typo="Typo.h6">Edit employee</MudText>
+        </CardHeaderContent>
+    </MudCardHeader>
+    <MudCardContent>
+        <MudTextField @bind-Value="employee.Id" Label="Id" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <MudTextField @bind-Value="employee.Name" Label="Name" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <MudTextField @bind-Value="employee.Surname" Label="Surname" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <MudTextField @bind-Value="employee.Email" Label="Email Address" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <MudTextField @bind-Value="employee.CountryOfResidence" Label="Place Of Work" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <MudTextField @bind-Value="employee.WalletAddress" Label="Wallet Address" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
 
-<form>
-    <div class="form-group">
-        <label for="employeeName">Employee Name</label>
-        <input type="text" @bind="employee.Name" class="form-control" id="employeeName">
-    </div>
-    <div class="form-group">
-        <label for="employeeSurname">Employee Surname</label>
-        <input type="text" @bind="employee.Surname" class="form-control" id="employeeSurname">
-    </div>
-
-    <div class="form-group">
-        <label for="dateOfBirth">Date of birth</label>
-        <input type="text" @bind="employee.DateOfBirth" class="form-control" id="dateOfBirth">
-    </div>
-
-    <div class="form-group">
-        <label for="emailAddress">Email Address</label>
-        <input type="text" @bind="employee.Email" class="form-control" id="emailAddress">
-    </div>
-
-    <div class="form-group">
-        <label for="nationality">Nationality</label>
-        <input type="text" @bind="employee.Nationality" class="form-control" id="nationality">
-    </div>
-
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <label for="placeOfWork">Place of Work</label>
-            <input type="email" @bind="employee.PlaceOfWork" class="form-control" id="placeOfWork">
-        </div>
-
-        <div class="form-group col-md-6">
-            <label for="walletAddress">Wallet Address</label>
-            <input type="email" @bind="employee.WalletAddress" class="form-control" id="walletAddress">
-        </div>
-    </div>
-
-    <button type="submit" class="btn btn-primary" onclick="OnValidSubmit">Save contract</button>
-</form>
+        <br />
+        <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="OnValidSubmit">Update employee</MudButton>
+    </MudCardContent>
+</MudCard>
 
 @code {
 
@@ -61,7 +39,14 @@
     {
         try
         {
-            await Http.PostAsJsonAsync($"/employee/create", employee);
+            var response = await Http.PutAsJsonAsync(Routes.Employee.Update, employee);
+
+            if (response.IsSuccessStatusCode)
+            {
+                NavigationManager.NavigateTo(Routes.Employee.Index);
+            }
+
+            // handle not 2.x.x response codes.
         }
         catch (Exception ex)
         {

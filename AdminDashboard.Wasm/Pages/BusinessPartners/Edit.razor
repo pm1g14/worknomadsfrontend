@@ -1,0 +1,54 @@
+﻿@page "/partners/{walletAddress}/edit"
+@using AdminDashboard.Wasm.Models.BusinessPartner
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<MudCard Elevation="25">
+    <MudCardHeader>
+        <CardHeaderContent>
+            <MudText Typo="Typo.h6">Edit partner</MudText>
+        </CardHeaderContent>
+    </MudCardHeader>
+    <MudCardContent>
+        <MudTextField @bind-Value="partner.Name" Label="Name" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <MudTextField @bind-Value="partner.Address" Label="Address" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <MudTextField @bind-Value="partner.Email" Label="EmailAddress" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <MudTextField @bind-Value="partner.ContactNumber" Label="Contact Number" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <MudTextField @bind-Value="partner.WalletAddress" Label="WalletAddress" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+
+        <br />
+        <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="OnValidSubmit">Update partner</MudButton>
+    </MudCardContent>
+</MudCard>
+
+@code {
+
+    [Parameter]
+    public string WalletAddress { get; set; }
+
+    private EditBusinessPartner partner = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Http.PutAsJsonAsync(Routes.BusinessPartner.Update, partner);
+    }
+
+    private async Task OnValidSubmit()
+    {
+        try
+        {
+            var response = await Http.PutAsJsonAsync("/partner", partner);
+
+            if (response.IsSuccessStatusCode)
+            {
+                NavigationManager.NavigateTo(Routes.BusinessPartner.Index);
+            }
+
+            // handle not 2.x.x response codes.
+        }
+        catch (Exception ex)
+        {
+            StateHasChanged();
+        }
+    }
+}

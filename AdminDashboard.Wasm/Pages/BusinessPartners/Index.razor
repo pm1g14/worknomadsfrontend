@@ -1,0 +1,73 @@
+﻿@page "/companies/index"
+@using Microsoft.AspNetCore.Authorization
+@using AdminDashboard.Wasm.Models.BusinessPartner
+@inject NavigationManager NavigationManager
+@inject HttpClient Http
+@attribute [Authorize]
+
+<MudText Typo="Typo.h5" Color="Color.Primary" Class="mb-4">Business Partners</MudText>
+
+<MudButton Icon="@Icons.Material.Filled.Add" Style="margin-bottom: 15px" Color="Color.Primary" OnClick="AddNewPartner">Register new partner</MudButton>
+
+@if (partners == null)
+{
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+else
+{
+    <MudTable RowStyle="cursor: pointer;" Items="@partners" Hover="true" Breakpoint="Breakpoint.Sm" Loading="@_loading" LoadingProgressColor="Color.Info" T="BusinessPartnerDetails" OnRowClick="@(contract => PartnerDetails(contract))">
+        <HeaderContent>
+            <MudTh>Id</MudTh>
+            <MudTh>Name</MudTh>
+            <MudTh>EmailAddress</MudTh>
+            <MudTh>WalletAddress</MudTh>
+            <MudTh>Action</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Id">@context.Id</MudTd>
+            <MudTd DataLabel="Name">@context.Name</MudTd>
+            <MudTd DataLabel="EmailAddress">@context.Email</MudTd>
+            <MudTd DataLabel="WalletAddress">@context.WalletAddress</MudTd>
+            <MudTd>
+                <MudIconButton Icon="@Icons.Material.Filled.Edit" Size="Size.Small" Class="ma-2" OnClick="@(() => EditPartner(context.WalletAddress))" />
+                <MudIconButton Icon="@Icons.Material.Filled.Delete" Size="Size.Small" Class="ma-2" OnClick="@(() => DeletePartner(context.WalletAddress))" />
+            </MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager PageSizeOptions="new int[] { 1, 5, 10 }" />
+        </PagerContent>
+    </MudTable>
+    
+    @code {
+        private bool _hidePosition;
+        private bool _loading;
+        private List<BusinessPartnerDetails> partners = new List<BusinessPartnerDetails>();
+
+        protected override async Task OnInitializedAsync()
+        {
+            partners = await Http.GetFromJsonAsync<List<BusinessPartnerDetails>>(Routes.BusinessPartner.Index);
+        }
+
+        protected void PartnerDetails(TableRowClickEventArgs<BusinessPartnerDetails> c)
+        {
+            NavigationManager.NavigateTo($"/partners/{c.Item.WalletAddress}/details");
+        }
+
+        protected void AddNewPartner()
+        {
+            NavigationManager.NavigateTo("/partners/add");
+        }
+
+        protected void EditPartner(string walletAddress)
+        {
+            NavigationManager.NavigateTo($"/partners/{walletAddress}/edit");
+        }
+
+        protected void DeletePartner(string walletAddress)
+        {
+            NavigationManager.NavigateTo($"/partners/{walletAddress}/delete");
+        }
+    }
+}

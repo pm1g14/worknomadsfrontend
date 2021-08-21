@@ -4,11 +4,11 @@
     {
         public static class BusinessPartner
         {
-            public const string Index = "/business-partner/{walletAddress}/index";
+            public const string Index = "/business-partner/index";
             public const string Create = "/business-partner/create";
             public const string Get = "/business-partner/{walletAddress}";
             public const string Update = "/business-partner";
-            public const string Delete = "/business-partner";
+            public const string Delete = "/business-partner/{walletAddress}";
 
         }
 

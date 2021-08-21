@@ -81,10 +81,10 @@ namespace AdminDashboard.Wasm.Helpers
                         Id = 1,
                         Name = "Aris",
                         Surname = "Fanaras",
-                        DateOfBirth = "27/07/1987",
+                        //DateOfBirth = "27/07/1987",
                         Email = "arisfan87@gmail.com",
                         Nationality = "Greek",
-                        PlaceOfWork = "Greece",
+                        //PlaceOfWork = "Greece",
                         WalletAddress = "0x45316062B2347889F19A01765f0e7af05ED34e8f"
                     },
                     new EmployeeDetails
@@ -92,10 +92,10 @@ namespace AdminDashboard.Wasm.Helpers
                         Id = 2,
                         Name = "Panagiotis",
                         Surname = "Mavrothallasiti",
-                        DateOfBirth = "01/01/1990",
+                        //DateOfBirth = "01/01/1990",
                         Email = "panamavro@gmail.com",
                         Nationality = "Greek",
-                        PlaceOfWork = "UK",
+                        //PlaceOfWork = "UK",
                         WalletAddress = "0x45316062B2347889F19A01765f0e7af05ED34a3c"
                     }
                 };

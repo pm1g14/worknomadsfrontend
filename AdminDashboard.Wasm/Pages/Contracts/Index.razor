@@ -21,18 +21,18 @@ else
 {
     <MudTable RowStyle="cursor: pointer;" Items="@contracts" Hover="true" Breakpoint="Breakpoint.Sm" LoadingProgressColor="Color.Info" T="Contract" OnRowClick="@(contract => ContractDetails(contract))">
         <HeaderContent>
-            <MudTh>Name</MudTh>
-            <MudTh>Surname</MudTh>
-            <MudTh>CountryOfResidence</MudTh>
-            <MudTh>Email</MudTh>
+            <MudTh>Id</MudTh>
+            <MudTh>Employee</MudTh>
+            <MudTh>Business Partner</MudTh>
             <MudTh>RemainingBalance</MudTh>
+            <MudTh>Status</MudTh>
         </HeaderContent>
         <RowTemplate>
-            <MudTd DataLabel="Name">@context.EmployeeName</MudTd>
-            <MudTd DataLabel="Surname">@context.EmployeeSurname</MudTd>
-            <MudTd DataLabel="CountryOfResidence">@context.CountryOfResidence</MudTd>
-            <MudTd DataLabel="Email">@context.Email</MudTd>
+            <MudTd DataLabel="Id">1</MudTd>
+            <MudTd DataLabel="Name">@context.EmployeeName @context.EmployeeSurname</MudTd>
+            <MudTd DataLabel="BusinessPartner">Sonovate</MudTd>
             <MudTd DataLabel="RemainingBalance">@context.RemainingBalance</MudTd>
+            <MudTd DataLabel="Status">Running</MudTd>
         </RowTemplate>
         <PagerContent>
             <MudTablePager PageSizeOptions="new int[] { 1, 5, 10 }" />

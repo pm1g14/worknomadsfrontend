@@ -22,15 +22,17 @@ else
             <MudTh>Surname</MudTh>
             <MudTh>Email Address</MudTh>
             <MudTh>Place Of Work</MudTh>
+            <MudTh>Action</MudTh>
         </HeaderContent>
         <RowTemplate>
             <MudTd DataLabel="Id">@context.Id</MudTd>
             <MudTd DataLabel="Name">@context.Name</MudTd>
             <MudTd DataLabel="Surname">@context.Surname</MudTd>
             <MudTd DataLabel="EmailAddress">@context.Email</MudTd>
-            <MudTd DataLabel="EmailAddress">@context.PlaceOfWork</MudTd>
+            <MudTd DataLabel="EmailAddress">@context.CountryOfResidence</MudTd>
             <MudTd>
-                <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Size="Size.Small" Class="ma-2" OnClick="@(() => DeleteEmployee(context.WalletAddress))" />
+                <MudIconButton Icon="@Icons.Material.Filled.Edit" Size="Size.Small" Class="ma-2" OnClick="@(() => EditEmployee(context.WalletAddress))" />
+                <MudIconButton Icon="@Icons.Material.Filled.Delete" Size="Size.Small" Class="ma-2" OnClick="@(() => DeleteEmployee(context.WalletAddress))" />
             </MudTd>
         </RowTemplate>
         <PagerContent>
@@ -66,6 +68,11 @@ else
     protected void AddNewEmployee()
     {
         NavigationManager.NavigateTo("/employees/add");
+    }
+
+    protected void EditEmployee(string walletAddress)
+    {
+        NavigationManager.NavigateTo($"/employees/{walletAddress}/Edit");
     }
 
     protected void DeleteEmployee(string walletAddress)
