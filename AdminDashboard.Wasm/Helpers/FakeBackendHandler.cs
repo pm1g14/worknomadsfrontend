@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using AdminDashboard.Wasm.Models;
-using AdminDashboard.Wasm.Models.Company;
+using AdminDashboard.Wasm.Models.BusinessPartner;
 using AdminDashboard.Wasm.Models.Contract;
 using AdminDashboard.Wasm.Models.Employee;
 using AdminDashboard.Wasm.Models.User;
@@ -81,10 +81,10 @@ namespace AdminDashboard.Wasm.Helpers
                         Id = 1,
                         Name = "Aris",
                         Surname = "Fanaras",
-                        DateOfBirth = "27/07/1987",
-                        EmailAddress = "arisfan87@gmail.com",
+                        //DateOfBirth = "27/07/1987",
+                        Email = "arisfan87@gmail.com",
                         Nationality = "Greek",
-                        PlaceOfWork = "Greece",
+                        //PlaceOfWork = "Greece",
                         WalletAddress = "0x45316062B2347889F19A01765f0e7af05ED34e8f"
                     },
                     new EmployeeDetails
@@ -92,10 +92,10 @@ namespace AdminDashboard.Wasm.Helpers
                         Id = 2,
                         Name = "Panagiotis",
                         Surname = "Mavrothallasiti",
-                        DateOfBirth = "01/01/1990",
-                        EmailAddress = "panamavro@gmail.com",
+                        //DateOfBirth = "01/01/1990",
+                        Email = "panamavro@gmail.com",
                         Nationality = "Greek",
-                        PlaceOfWork = "UK",
+                        //PlaceOfWork = "UK",
                         WalletAddress = "0x45316062B2347889F19A01765f0e7af05ED34a3c"
                     }
                 };
@@ -105,25 +105,25 @@ namespace AdminDashboard.Wasm.Helpers
 
             async Task<HttpResponseMessage> getCompanies()
             {
-                var companies = new List<CompanyDetails>
+                var companies = new List<BusinessPartnerDetails>
                 {
-                    new CompanyDetails
+                    new BusinessPartnerDetails
                     {
                         Id = 1,
                         Name = "Sonovate",
                         Address = "Cardiff",
-                        EmailAddress = "sono@sono.co.uk",
+                        Email = "sono@sono.co.uk",
                         WalletAddress = "0x3hi12h3i1u3h1i2u3b313vg1v2",
-                        TelephoneNumber = "+4413231231"
+                        ContactNumber = "+4413231231"
                     },
-                    new CompanyDetails
+                    new BusinessPartnerDetails
                     {
                         Id = 2,
                         Name = "Just Eat",
                         Address = "Bristol",
-                        EmailAddress = "justeat@je.co.uk",
+                        Email = "justeat@je.co.uk",
                         WalletAddress = "0x3hi12h3i1u3h1i2u333f3fg3f3fg3",
-                        TelephoneNumber = "+4482872762"
+                        ContactNumber = "+4482872762"
                     }
                 };
 
@@ -139,11 +139,11 @@ namespace AdminDashboard.Wasm.Helpers
                         EmployeeId = 1,
                         EmployeeName = "Aris",
                         EmployeeSurname = "Fanaras",
-                        Address = "0x45316062B2347889F19A01765f0e7af05ED34e8f",
+                        Address = "0x9646fc6ee1b3bf193ca2bcd0d167e0aa2c6244b0",
                         Email = "arisfan87@gmail.com",
                         CountryOfResidence = "Greece",
                         PhoneNumber = "313213123",
-                        EmployeeWalletAddress = "0x45316062B2347779F19A01765f0e7af05ED34a3b",
+                        EmployeeWalletAddress = "0xCF6999A79411D4Ed73aA0cCa43fE2982cFA68e65",
                         CompanyWalletAddress = "0x45316062B2347659F19A01765f0e7af05ED34a3d",
                         ContractDetails = new ContractDetails
                         {
@@ -192,7 +192,7 @@ namespace AdminDashboard.Wasm.Helpers
                         EmployeeId = 1,
                         EmployeeName = "Aris",
                         EmployeeSurname = "Fanaras",
-                        Address = "0x45316062B2347889F19A01765f0e7af05ED34e8f",
+                        Address = "0x9646fc6ee1b3bf193ca2bcd0d167e0aa2c6244b0",
                         CountryOfResidence = "Greece",
                         Email = "arisfan87@gmail.com",
                         RemainingBalance = 1200
@@ -251,12 +251,12 @@ namespace AdminDashboard.Wasm.Helpers
 
                 var user = new UserRecord
                 {
-                    Id = users.Count > 0 ? users.Max(x => x.Id) + 1 : 0,
+                    Id = users.Count > 0 ? users.Max(x => x.Id) + 1 : 1,
                     Username = body.Username,
                     Password = body.Password,
                     FirstName = body.FirstName,
                     LastName = body.LastName,
-                    Role = users.Count < 1 ? Role.SuperAdmin : Role.Employee
+                    Role = users.Count < 1 ? Role.SuperAdmin : Role.Partner
                 };
 
                 users.Add(user);
@@ -341,7 +341,7 @@ namespace AdminDashboard.Wasm.Helpers
                 };
 
                 // delay to simulate real api call
-                await Task.Delay(500);
+                //await Task.Delay(200);
 
                 return response;
             }
@@ -385,7 +385,7 @@ namespace AdminDashboard.Wasm.Helpers
     public enum Role
     {
         SuperAdmin,
-        Company,
-        Employee
+        Partner,
+        User
     }
 }

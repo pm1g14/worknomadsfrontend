@@ -2,11 +2,11 @@
 {
     public class ExecuteContract
     {
-        public ExecuteContract(string contractAddress, string recipientWalletAddress)
-        {
-            ContractAddress = contractAddress;
-            RecipientWalletAddress = recipientWalletAddress;
-        }
+        //public ExecuteContract(string contractAddress, string recipientWalletAddress)
+        //{
+        //    ContractAddress = contractAddress;
+        //    RecipientWalletAddress = recipientWalletAddress;
+        //}
 
         public string ContractAddress { get; set; }
         public decimal Amount { get; set; }

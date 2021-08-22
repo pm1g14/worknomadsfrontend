@@ -1,0 +1,56 @@
+﻿@page "/partners/{walletAddress}/delete"
+@using AdminDashboard.Wasm.Models.BusinessPartner
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<MudCard Elevation="25">
+    <MudCardHeader>
+        <CardHeaderContent>
+            <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="DeleteEmployee">Delete Employee</MudButton>
+        </CardHeaderContent>
+    </MudCardHeader>
+    <MudCardContent>
+        <MudTextField @bind-Value="partner.Id" ReadOnly Label="Id" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <MudTextField @bind-Value="partner.Name" ReadOnly Label="Name" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <MudTextField @bind-Value="partner.Email" ReadOnly Label="Email Address" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <MudTextField @bind-Value="partner.WalletAddress" ReadOnly Label="Wallet Address" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <MudTextField @bind-Value="partner.Address" ReadOnly Label="Wallet Address" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <MudTextField @bind-Value="partner.ContactNumber" ReadOnly Label="Wallet Address" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+
+        <br />
+    </MudCardContent>
+</MudCard>
+
+@code {
+
+    [Parameter]
+    public string WalletAddress { get; set; }
+
+    private BusinessPartnerDetails partner = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var uri = Routes.Employee.Get.Replace("{walletAddress}", WalletAddress);
+        partner = await Http.GetFromJsonAsync<BusinessPartnerDetails>(uri);
+    }
+
+    protected async Task DeleteEmployee()
+    {
+        try
+        {
+            var uri = Routes.BusinessPartner.Delete.Replace("{walletAddress}", WalletAddress);
+            var response = await Http.DeleteAsync(uri);
+
+            if (response.IsSuccessStatusCode)
+            {
+                NavigationManager.NavigateTo(Routes.Employee.Index);
+            }
+
+            // handle not 2.x.x response codes.
+        }
+        catch (Exception ex)
+        {
+            StateHasChanged();
+        }
+    }
+}

@@ -1,4 +1,4 @@
-﻿@page "/details/{contractAddress}"
+﻿@page "/edit/{contractAddress}"
 @using AdminDashboard.Wasm.Models.Contract
 @using Microsoft.AspNetCore.Authorization
 @inject HttpClient Http
@@ -74,9 +74,12 @@ else
         var dialog = DialogService.Show<Dialog>("Execute Contract", parameters, maxWidth);
         var result = await dialog.Result;
 
+        var executeContract = result.Data as ExecuteContract;
+
         if (!result.Cancelled)
         {
-    // make http request?
+            //http://localhost:80/app/v1/contract/pay/
+            await Http.PostAsJsonAsync("http://localhost:80/app/v1/contract/pay", executeContract);
         }
     }
 
