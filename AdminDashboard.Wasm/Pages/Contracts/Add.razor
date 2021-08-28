@@ -11,19 +11,23 @@
         </CardHeaderContent>
     </MudCardHeader>
     <MudCardContent>
-        <MudTextField @bind-Value="contract.EmployeeName" Label="EmployeeName" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
-        <MudTextField @bind-Value="contract.EmployeeSurname" Label="EmployeeSurname" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <MudTextField @bind-Value="contract.EmployeeName" Label="Employee Name" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <MudTextField @bind-Value="contract.EmployeeSurname" Label="Employee Surname" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
         <MudTextField @bind-Value="contract.Address" Label="Address" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
-        <MudTextField @bind-Value="contract.PhoneNumber" Label="PhoneNumber" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <MudTextField @bind-Value="contract.PhoneNumber" Label="Phone Number" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
         <MudTextField @bind-Value="contract.Email" Label="Contact Email" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
-        <MudTextField @bind-Value="contract.ContractExpiry" Label="ContractExpiry" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
-        <MudTextField @bind-Value="contract.EmployeeWalletAddress" Label="EmployeeWalletAddress" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
-        <MudTextField @bind-Value="contract.CompanyWalletAddress" Label="EmployerWalletAddress" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
-        <MudTextField @bind-Value="contract.CountryOfResidence" Label="CountryOfResidence" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
-        <MudTextField @bind-Value="contract.GrossSalary" Label="GrossSalary" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
-        <MudTextField @bind-Value="contract.PaymentTerm" Label="PaymentTerm" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <MudTextField @bind-Value="contract.EmployeeWalletAddress" Label="Employee Wallet Address" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <MudTextField @bind-Value="contract.CompanyWalletAddress" Label="Employer Wallet Address" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <MudTextField @bind-Value="contract.CountryOfResidence" Label="Country Of Residence" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <MudTextField @bind-Value="contract.ContractDetails.ContractExpiry" Label="Contract Expiry" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
 
-        <br/>
+        <MudTextField @bind-Value="contract.ContractDetails.GrossSalary" Label="Gross Salary" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <MudTextField @bind-Value="contract.ContractDetails.PaymentTerm" Label="Payment Term" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <MudTextField @bind-Value="contract.ContractDetails.PaymentInstallments" Label="Payment Installments" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <MudTextField @bind-Value="contract.ContractDetails.RemoteLocation" Label="Remote Location" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <MudTextField @bind-Value="contract.ContractDetails.BalanceUnit" Label="Balance Unit" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+
+        <br />
         <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="OnValidSubmit">Save contract</MudButton>
     </MudCardContent>
 </MudCard>
