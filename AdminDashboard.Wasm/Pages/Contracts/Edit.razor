@@ -56,7 +56,7 @@ else
     {
         try
         {
-            await Http.PostAsJsonAsync($"/app/v1/{companyId}/contracts/create", contract);
+            await Http.PostAsJsonAsync($"/app/v1/1/contracts/create", contract);
             var contracts = await Http.GetFromJsonAsync<Contract[]>("sample-data/contracts.json");
 
             contract = contracts.FirstOrDefault(x => x.Address == ContractAddress);
