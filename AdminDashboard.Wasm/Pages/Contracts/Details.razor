@@ -1,0 +1,147 @@
+﻿@page "/contacts/{contractAddress}/details"
+@using AdminDashboard.Wasm.Models.Contract
+@using Microsoft.AspNetCore.Authorization
+@inject HttpClient Http
+@inject IDialogService DialogService
+@attribute [Authorize]
+
+<MudButton Variant="Variant.Filled" Style="margin-bottom: 15px" Color="Color.Primary" OnClick="@ExecuteContract">Execute contract</MudButton>
+
+@if (contract == null)
+{
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+else
+{
+    <MudText Typo="Typo.h5" Color="Color.Primary" Class="mb-4">Contract</MudText>
+    <MudTabs Elevation="25" Color="Color.Transparent" Rounded="true" PanelClass="mt-6">
+        <MudTabPanel Text="General">
+            <MudGrid>
+                <MudItem xs="12" sm="8" md="9">
+                    <MudCard Elevation="25">
+                        <MudCardHeader>
+                            <CardHeaderContent>
+                                <MudText>General</MudText>
+                            </CardHeaderContent>
+                        </MudCardHeader>
+                        <MudCardContent>
+                            <MudGrid>
+                                <MudItem xs="12" md="6">
+                                    <MudTextField @bind-Value="contract.EmployeeId" ReadOnly Label="Employee Id" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+                                </MudItem>
+                                <MudItem xs="12" md="6">
+                                    <MudTextField @bind-Value="contract.EmployeeName" ReadOnly Label="Employee Name" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+                                </MudItem>
+                                <MudItem xs="12" md="6">
+                                    <MudTextField @bind-Value="contract.EmployeeSurname" ReadOnly Label="Employee Surname" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+                                </MudItem>
+                                <MudItem xs="12" md="6">
+                                    <MudTextField @bind-Value="contract.CountryOfResidence" ReadOnly Label="Country Of Residence" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+                                </MudItem>
+                                <MudItem xs="12" md="6">
+                                    <MudTextField @bind-Value="contract.Address" ReadOnly Label="Contract Address" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+                                </MudItem>
+                                <MudItem xs="12" md="6">
+                                    <MudTextField @bind-Value="contract.PhoneNumber" ReadOnly Label="Phone Number" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+                                </MudItem>
+                                <MudItem xs="12" md="6">
+                                    <MudTextField @bind-Value="contract.Email" ReadOnly Label="Contact Email" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+                                </MudItem>
+                                <MudItem xs="12" md="6">
+                                    <MudTextField @bind-Value="contract.EmployeeWalletAddress" ReadOnly Label="Employee Wallet Address" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+                                </MudItem>
+                                <MudItem xs="12" md="6">
+                                    <MudTextField @bind-Value="contract.CompanyWalletAddress" ReadOnly Label="Employer Wallet Address" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+                                </MudItem>
+                                <MudItem xs="12" md="6">
+                                    <MudTextField @bind-Value="contract.CountryOfResidence" ReadOnly Label="Country Of Residence" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+                                </MudItem>
+                            </MudGrid>
+                        </MudCardContent>
+                    </MudCard>
+                </MudItem>
+            </MudGrid>
+        </MudTabPanel>
+        <MudTabPanel Text="Details">
+            <MudGrid>
+                <MudItem xs="12" sm="8" md="9">
+                    <MudCard Elevation="25">
+                        <MudCardHeader>
+                            <CardHeaderContent>
+                                <MudText>Details</MudText>
+                            </CardHeaderContent>
+                        </MudCardHeader>
+                        <MudCardContent>
+                            <MudGrid>
+                                <MudItem xs="12" md="6">
+                                    <MudTextField @bind-Value="contract.ContractDetails.ContractExpiry" ReadOnly Label="Contract Expiry" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+
+                                </MudItem>
+                                <MudItem xs="12" md="6">
+                                    <MudTextField @bind-Value="contract.ContractDetails.GrossSalary" ReadOnly Label="Gross Salary" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+
+                                </MudItem>
+                                <MudItem xs="12" md="6">
+                                    <MudTextField @bind-Value="contract.ContractDetails.PaymentTerm" ReadOnly Label="Payment Term" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+
+                                </MudItem>
+                                <MudItem xs="12" md="6">
+                                    <MudTextField @bind-Value="contract.ContractDetails.BalanceUnit" ReadOnly Label="Balance Unit" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+
+                                </MudItem>
+                                <MudItem xs="12" md="6">
+                                    <MudTextField @bind-Value="contract.ContractDetails.RemoteLocation" ReadOnly Label="Remote Location" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+                                </MudItem>
+                            </MudGrid>
+                        </MudCardContent>
+                    </MudCard>
+                </MudItem>
+            </MudGrid>
+        </MudTabPanel>
+    </MudTabs>
+}
+
+@code {
+    private Contract contract = new();
+
+    [Parameter]
+    public string ContractAddress { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            await Http.PostAsJsonAsync($"/app/v1/1/contracts/create", contract);
+            var contracts = await Http.GetFromJsonAsync<Contract[]>("sample-data/contracts.json");
+
+            contract = contracts.FirstOrDefault(x => x.Address == ContractAddress);
+        }
+        catch (Exception e)
+        {
+        }
+    }
+
+    async Task ExecuteContract()
+    {
+        DialogOptions maxWidth = new DialogOptions() { MaxWidth = MaxWidth.Medium, FullWidth = true };
+
+        var parameters = new DialogParameters();
+        parameters.Add("ContractAddress", contract.Address);
+        parameters.Add("RecipientWalletAddress", contract.EmployeeWalletAddress);
+
+
+        var dialog = DialogService.Show<Dialog>("Execute Contract", parameters, maxWidth);
+        var result = await dialog.Result;
+
+        var executeContract = result.Data as ExecuteContract;
+
+        if (!result.Cancelled)
+        {
+            //http://localhost:80/app/v1/contract/pay/
+            await Http.PostAsJsonAsync("http://localhost:80/app/v1/contract/pay", executeContract);
+        }
+    }
+
+}

@@ -57,7 +57,7 @@ else
 
     protected void ContractDetails(TableRowClickEventArgs<Contract> c)
     {
-        NavigationManager.NavigateTo($"/edit/{c.Item.Address}");
+        NavigationManager.NavigateTo($"/contracts/{c.Item.Address}/details");
     }
 
     protected void CreateNewContract()
