@@ -47,7 +47,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        contracts = await Http.GetFromJsonAsync<List<Contract>>("app/v1/contacts/get");
+        contracts = await Http.GetFromJsonAsync<List<Contract>>("app/v1/contracts/get");
 
         if (AccountService?.User?.Role != Role.SuperAdmin)
         {
