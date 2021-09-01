@@ -36,14 +36,13 @@
     private readonly AddContract contract = new();
 
     private bool loading;
-        const string companyId = "1";
 
     private async void OnValidSubmit()
     {
         loading = true;
         try
         {
-            await Http.PostAsJsonAsync($"/app/v1/{companyId}/contracts/create", contract);
+            await Http.PostAsJsonAsync($"/app/v1/contracts/create", contract);
             loading = false;
         }
         catch (Exception ex)
