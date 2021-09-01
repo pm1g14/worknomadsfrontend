@@ -1,6 +1,7 @@
 ﻿@page "/contracts/add"
 @using AdminDashboard.Wasm.Models.Contract
 @using Microsoft.AspNetCore.Authorization
+@using System.Net
 @inject HttpClient Http
 @attribute [Authorize]
 
@@ -19,7 +20,7 @@
         <MudTextField @bind-Value="contract.EmployeeWalletAddress" Label="Employee Wallet Address" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
         <MudTextField @bind-Value="contract.CompanyWalletAddress" Label="Employer Wallet Address" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
         <MudTextField @bind-Value="contract.CountryOfResidence" Label="Country Of Residence" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
-        <MudTextField @bind-Value="contract.ContractDetails.ContractExpiry" Label="Contract Expiry" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <MudTextField @bind-Value="contract.ContractDetails.ContractExpiry" @bind:format=@myTimeFormat Label="Contract Expiry" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
 
         <MudTextField @bind-Value="contract.ContractDetails.GrossSalary" Label="Gross Salary" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
         <MudTextField @bind-Value="contract.ContractDetails.PaymentTerm" Label="Payment Term" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
@@ -37,13 +38,22 @@
 
     private bool loading;
 
+    string myTimeFormat = "YYYY-MM-DD";
+
     private async void OnValidSubmit()
     {
         loading = true;
         try
         {
-            await Http.PostAsJsonAsync($"/app/v1/contracts/create", contract);
-            loading = false;
+            var response = await Http.PostAsJsonAsync($"/app/v1/contracts/create", contract);
+
+
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+
+                loading = false;
+            }
+
         }
         catch (Exception ex)
         {
