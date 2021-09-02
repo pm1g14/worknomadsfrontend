@@ -23,7 +23,7 @@
 
         public static class Contracts
         {
-            public const string Index = "/app/v1/{address}/contracts/get";
+            public const string Index = "/contracts/index";
             public const string Get = "/app/v1/{address}/contracts/get";
         }
     }
