@@ -113,10 +113,12 @@ else
     {
         try
         {
-            await Http.PostAsJsonAsync($"/app/v1/1/contracts/create", contract);
-            var contracts = await Http.GetFromJsonAsync<Contract[]>("sample-data/contracts.json");
+            var response = await Http.GetFromJsonAsync<Contract>($"app/v1/contract/{ContractAddress}/get");
 
-            contract = contracts.FirstOrDefault(x => x.Address == ContractAddress);
+            if (response != null)
+            {
+                contract = response;
+            }
         }
         catch (Exception e)
         {
@@ -139,8 +141,7 @@ else
 
         if (!result.Cancelled)
         {
-            //http://localhost:80/app/v1/contract/pay/
-            await Http.PostAsJsonAsync("http://localhost:80/app/v1/contract/pay", executeContract);
+            await Http.PostAsJsonAsync("app/v1/contract/pay", executeContract);
         }
     }
 

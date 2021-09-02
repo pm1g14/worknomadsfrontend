@@ -147,7 +147,7 @@ namespace AdminDashboard.Wasm.Helpers
                         CompanyWalletAddress = "0x45316062B2347659F19A01765f0e7af05ED34a3d",
                         ContractDetails = new ContractDetails
                         {
-                            ContractExpiry = "2025-01-01T17:16:40",
+                            ContractExpiry2 = "2025-01-01T17:16:40",
                             GrossSalary = "60.000",
                             RemoteLocation = "Greece",
                             PaymentInstallments = 10,
@@ -168,7 +168,7 @@ namespace AdminDashboard.Wasm.Helpers
                         PhoneNumber = "13123123",
                         ContractDetails = new ContractDetails
                         {
-                            ContractExpiry = "2022-01-01T17:16:40",
+                            ContractExpiry2 = "2022-01-01T17:16:40",
                             GrossSalary = "10.000",
                             RemoteLocation = "UK",
                             PaymentInstallments = 10,
