@@ -11,7 +11,7 @@
 
 <MudButton Icon="@Icons.Material.Filled.Add" Style="margin-bottom: 15px" Color="Color.Primary" OnClick="CreateNewContract">Request new contract</MudButton>
 
-@if (contracts == null)
+@if (_contracts == null)
 {
     <p>
         <em>Loading...</em>
@@ -19,20 +19,20 @@
 }
 else
 {
-    <MudTable RowStyle="cursor: pointer;" Items="@contracts" Hover="true" Breakpoint="Breakpoint.Sm" LoadingProgressColor="Color.Info" T="Contract" OnRowClick="@(contract => ContractDetails(contract))">
+    <MudTable RowStyle="cursor: pointer;" Items="@_contracts" Hover="true" Breakpoint="Breakpoint.Sm" LoadingProgressColor="Color.Info" T="Contract" OnRowClick="@(contract => ContractDetails(contract))">
         <HeaderContent>
-            <MudTh>Id</MudTh>
+            <MudTh>Address</MudTh>
             <MudTh>Employee</MudTh>
             <MudTh>Business Partner</MudTh>
             <MudTh>RemainingBalance</MudTh>
-            <MudTh>Status</MudTh>
+            <MudTh>Activation Status</MudTh>
         </HeaderContent>
         <RowTemplate>
-            <MudTd DataLabel="Id">1</MudTd>
+            <MudTd DataLabel="Address">@context.Address</MudTd>
             <MudTd DataLabel="Name">@context.EmployeeName @context.EmployeeSurname</MudTd>
-            <MudTd DataLabel="BusinessPartner">Sonovate</MudTd>
+            <MudTd DataLabel="BusinessPartner">@context.BusinessPartner</MudTd>
             <MudTd DataLabel="RemainingBalance">@context.RemainingBalance</MudTd>
-            <MudTd DataLabel="Status">Running</MudTd>
+            <MudTd DataLabel="Activation Status">@context.Active</MudTd>
         </RowTemplate>
         <PagerContent>
             <MudTablePager PageSizeOptions="new int[] { 1, 5, 10 }" />
@@ -43,16 +43,22 @@ else
 @code {
     private bool _loading;
 
-    private List<Contract> contracts;
+    private List<Contract> _contracts;
 
     protected override async Task OnInitializedAsync()
     {
-        contracts = await Http.GetFromJsonAsync<List<Contract>>("app/v1/contracts/get");
+        var response = await Http.GetFromJsonAsync<ContractIndex>("app/v1/contracts/get");
 
-        if (AccountService?.User?.Role != Role.SuperAdmin)
+        if (response != null && response.Contracts.Any())
         {
-            contracts = contracts.Where(x => x.EmployeeId.ToString() == AccountService.User.Id).ToList();
+            _contracts = response.Contracts;
         }
+        else
+        {
+            _contracts = new ();
+        }
+
+        // handle 4.x.x
     }
 
     protected void ContractDetails(TableRowClickEventArgs<Contract> c)
@@ -64,5 +70,4 @@ else
     {
         NavigationManager.NavigateTo("/contracts/add");
     }
-
 }
