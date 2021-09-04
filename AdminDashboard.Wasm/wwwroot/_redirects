@@ -1,8 +1,8 @@
 ﻿/*    /index.html   200
-/dashboard    /dashboard
-/contracts/index    /contracts/index
-/companies/index    /companies/index
-/employees/index    /employees/index
-/employees/add    /employees/add
-/companies/add    /companies/add
-/contracts/add    /contracts/add
+/dashboard    https://work-nomads.netlify.app/dashboard
+/contracts/index    https://work-nomads.netlify.app/contracts/index
+/companies/index    https://work-nomads.netlify.app/companies/index
+/employees/index    https://work-nomads.netlify.app/employees/index
+/employees/add    https://work-nomads.netlify.app/employees/add
+/companies/add    https://work-nomads.netlify.app/companies/add
+/contracts/add    https://work-nomads.netlify.app/contracts/add
