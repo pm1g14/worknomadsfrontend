@@ -47,18 +47,26 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var response = await Http.GetFromJsonAsync<ContractIndex>("app/v1/contracts/get");
-
-        if (response != null && response.Contracts.Any())
+        try
         {
-            _contracts = response.Contracts;
+            var response = await Http.GetFromJsonAsync<ContractIndex>("app/v1/contracts/get");
+
+            if (response != null && response.Contracts.Any())
+            {
+                _contracts = response.Contracts;
+            }
+            else
+            {
+                _contracts = new ();
+            }
         }
-        else
+        catch (Exception e)
         {
-            _contracts = new ();
+            Console.WriteLine(e);
+            _contracts = new();
         }
 
-        // handle 4.x.x
+    // handle 4.x.x
     }
 
     protected void ContractDetails(TableRowClickEventArgs<Contract> c)
