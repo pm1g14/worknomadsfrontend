@@ -1,12 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace AdminDashboard.Wasm.Models.Contract
 {
-    public class AddContract
+    public class AddContractRequest
     {
         [Required]
         public string EmployeeName { get; set; }
+
         [Required]
         public string EmployeeSurname { get; set; }
 
@@ -28,6 +32,7 @@ namespace AdminDashboard.Wasm.Models.Contract
         [Required]
         public string EmployeeWalletAddress { get; set; }
 
-        public ContractDetails ContractDetails { get; set; } = new();
+
+        public ContractDetailsRequest ContractDetails { get; set; } = new();
     }
 }
