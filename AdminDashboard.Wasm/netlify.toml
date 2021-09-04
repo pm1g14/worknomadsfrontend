@@ -1,4 +1,9 @@
 ﻿[[redirects]]
-from = "/"
+from = "/*"
 to = "/index.html"
-status = 200
+status = 301
+
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 301
