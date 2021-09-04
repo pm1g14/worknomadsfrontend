@@ -28,7 +28,7 @@
 
 
         <MudItem xs="12" lg="4">
-            <MudDatePicker Label="Contract Expiry" Variant="Variant.Text" Margin="Margin.Normal" @bind-Date="@contract.ContractDetails.ContractExpiry" DateFormat="yyyy-MM-dd" />
+            <MudDatePicker Label="Contract Expiry" Variant="Variant.Text" Margin="Margin.Normal" @bind-Date= "@contract.ContractDetails.ContractExpiry" DateFormat="yyyy-MM-dd" />
         </MudItem>
 
         <MudItem xs="12" lg="4">
@@ -64,8 +64,30 @@
         loading = true;
         try
         {
-            var response = await Http.PostAsJsonAsync($"/app/v1/contracts/create", contract);
+            
+            var request = new AddContractRequest
+            {
+                EmployeeName = contract.EmployeeName,
+                EmployeeSurname = contract.EmployeeSurname,
+                Address = contract.Address,
+                Email = contract.Email,
+                CompanyWalletAddress = contract.CompanyWalletAddress,
+                CountryOfResidence = contract.CountryOfResidence,
+                EmployeeWalletAddress = contract.EmployeeWalletAddress,
+                PhoneNumber = contract.PhoneNumber,
+                ContractDetails = new ContractDetailsRequest
+                {
+                    BalanceUnit = contract.ContractDetails.BalanceUnit,
+                    GrossSalary = contract.ContractDetails.GrossSalary,
+                    ContractExpiry = contract.ContractDetails.ContractExpiry.Value.ToString("yyyy-MM-dd"),
+                    PaymentInstallments = contract.ContractDetails.PaymentInstallments,
+                    PaymentTerm = contract.ContractDetails.PaymentTerm,
+                    RemoteLocation = contract.ContractDetails.RemoteLocation
+                }
+            };
 
+
+            var response = await Http.PostAsJsonAsync("/app/v1/contracts/create", request);
 
             if (response.IsSuccessStatusCode)
             {
