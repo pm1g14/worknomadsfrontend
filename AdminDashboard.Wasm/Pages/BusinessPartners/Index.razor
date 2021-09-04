@@ -9,7 +9,7 @@
 
 <MudButton Icon="@Icons.Material.Filled.Add" Style="margin-bottom: 15px" Color="Color.Primary" OnClick="AddNewPartner">Register new partner</MudButton>
 
-@if (partners == null)
+@if (_partners == null)
 {
     <p>
         <em>Loading...</em>
@@ -17,7 +17,7 @@
 }
 else
 {
-    <MudTable RowStyle="cursor: pointer;" Items="@partners" Hover="true" Breakpoint="Breakpoint.Sm" Loading="@_loading" LoadingProgressColor="Color.Info" T="BusinessPartnerDetails" OnRowClick="@(contract => PartnerDetails(contract))">
+    <MudTable RowStyle="cursor: pointer;" Items="@_partners" Hover="true" Breakpoint="Breakpoint.Sm" Loading="@_loading" LoadingProgressColor="Color.Info" T="BusinessPartnerDetails" OnRowClick="@(contract => PartnerDetails(contract))">
         <HeaderContent>
             <MudTh>Id</MudTh>
             <MudTh>Name</MudTh>
@@ -43,11 +43,19 @@ else
     @code {
         private bool _hidePosition;
         private bool _loading;
-        private List<BusinessPartnerDetails> partners = new List<BusinessPartnerDetails>();
+        private List<BusinessPartnerDetails> _partners = new ();
 
         protected override async Task OnInitializedAsync()
         {
-            partners = await Http.GetFromJsonAsync<List<BusinessPartnerDetails>>(Routes.BusinessPartner.Index);
+            try
+            {
+                _partners = await Http.GetFromJsonAsync<List<BusinessPartnerDetails>>(Routes.BusinessPartner.Index);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                _partners = new List<BusinessPartnerDetails>(0);
+            }
         }
 
         protected void PartnerDetails(TableRowClickEventArgs<BusinessPartnerDetails> c)

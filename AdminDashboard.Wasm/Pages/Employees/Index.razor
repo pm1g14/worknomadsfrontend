@@ -7,7 +7,7 @@
 
 <MudButton Icon="@Icons.Material.Filled.Add" Style="margin-bottom: 15px" Color="Color.Primary" OnClick="AddNewEmployee">Add new employee</MudButton>
 
-@if (employees == null)
+@if (_employees == null)
 {
     <p>
         <em>Loading...</em>
@@ -15,7 +15,7 @@
 }
 else
 {
-    <MudTable RowStyle="cursor: pointer;" Items="@employees" Hover="true" Breakpoint="Breakpoint.Sm" LoadingProgressColor="Color.Info" T="EmployeeDetails" OnRowClick="@(contract => EmployeeDetails(contract))">
+    <MudTable RowStyle="cursor: pointer;" Items="@_employees" Hover="true" Breakpoint="Breakpoint.Sm" LoadingProgressColor="Color.Info" T="EmployeeDetails" OnRowClick="@(contract => EmployeeDetails(contract))">
         <HeaderContent>
             <MudTh>Id</MudTh>
             <MudTh>Name</MudTh>
@@ -43,20 +43,21 @@ else
 
 @code {
 
-    private List<EmployeeDetails> employees;
+    private List<EmployeeDetails> _employees;
 
     protected override async Task OnInitializedAsync()
     {
 
         try
         {
-            employees = await Http.GetFromJsonAsync<List<EmployeeDetails>>(Routes.Employee.Index);
+            _employees = await Http.GetFromJsonAsync<List<EmployeeDetails>>(Routes.Employee.Index);
 
-            if (employees is null || employees.Count == 0) employees = new List<EmployeeDetails>();
+            if (_employees is null || _employees.Count == 0) _employees = new List<EmployeeDetails>();
         }
         catch (Exception e)
         {
-            throw new Exception();
+            Console.Write(e);
+            _employees = new List<EmployeeDetails>(0);
         }
     }
 
